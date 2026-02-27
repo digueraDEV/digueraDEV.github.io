@@ -1,0 +1,50 @@
+body {
+    font-family: sans-serif;
+    background-color: #575656;
+    color: #ffffff;
+    margin: 0;
+}
+
+    .container {
+        max-width: 400px;
+        margin: 50px auto;
+        text-align: center;
+
+    }
+
+    .foto-perfil {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 3px solid #00ff88;
+    }
+
+    .meus-links ul {
+        list-style: none;
+        padding: 0;
+
+    }
+
+    .meus-links a {
+        display: block;
+        background-color: #333333;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        transition: 0.3s;   
+    }
+
+    .meus-links a:hover {
+        background-color: #00ff88;
+        color: #1a1a1a;
+        transform: scale(1.05);
+    }
+
+    footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 0.8em;
+        color: #ffffff;
+    }
