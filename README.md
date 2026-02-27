@@ -18,7 +18,7 @@ Welcome to my first portfolio project! This is a custom link aggregator, created
 * **Micro-interactions:** Button `:hover` effects to improve User Experience (UX).
 
 ### 🚀 Live Demo
-You can check the project running live here: [COLOQUE_SEU_LINK_AQUI]
+You can check the project running live here: [https://digueradev.github.io/linktree-clone/]
 
 ---
 
@@ -36,7 +36,7 @@ Bem-vindo ao meu primeiro projeto de portfólio! Este é um agregador de links p
 * **Micro-interações:** Efeitos de `:hover` nos botões para melhorar a Experiência do Usuário (UX).
 
 ### 🚀 Como acessar
-Você pode ver o projeto rodando ao vivo clicando aqui: [COLOQUE_SEU_LINK_AQUI]
+Você pode ver o projeto rodando ao vivo clicando aqui: [https://digueradev.github.io/linktree-clone/]
 
 ---
 *Developed with dedication by / Desenvolvido com dedicação por* **[Rodrigo]** 💻☕
