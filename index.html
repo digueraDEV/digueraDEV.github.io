@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rodrigo | Software Engineering</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    },
+                    colors: {
+                        accent: '#a855f7',
+                        linkedin: '#0A66C2',
+                        surface: '#050505',
+                        card: '#0f0f11',
+                        border: '#1f1f23'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #050505; color: #a1a1aa; -webkit-font-smoothing: antialiased; }
+        
+        .grid-bg {
+            background-image: radial-gradient(circle at 2px 2px, rgba(168, 85, 247, 0.05) 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+
+        /* Animação de Reveal */
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Bento Cards */
+        .bento-card {
+            background: #0f0f11;
+            border: 1px solid #1f1f23;
+            transition: all 0.3s ease;
+        }
+        .bento-card:hover {
+            border-color: #2dd4bf;
+            transform: scale(1.01);
+            box-shadow: 0 10px 30px -15px rgba(45, 212, 191, 0.15);
+        }
+
+        .github-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 40px -15px rgba(168, 85, 247, 0.3);
+        }
+
+        .linkedin-card {
+            background: #0A66C2;
+            border: 1px solid #084c8f;
+        }
+        .linkedin-card:hover {
+            background: #0d73d9;
+            transform: scale(1.02);
+            box-shadow: 0 10px 40px -15px rgba(10, 102, 194, 0.4);
+        }
+
+        .typing::after { content: '_'; animation: blink 1s infinite; color: #a855f7; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* ===================== MOBILE FIXES ===================== */
+
+        /* Grid mobile: coluna única, altura automática */
+        .bento-grid {
+            display: grid;
+            gap: 0.75rem;
+            grid-template-columns: 1fr;
+        }
+
+        /* Desktop: Bento clássico */
+        @media (min-width: 768px) {
+            .bento-grid {
+                grid-template-columns: repeat(4, 1fr);
+                /* sem auto-rows fixo — cada card define sua altura */
+            }
+            .md-col-2 { grid-column: span 2; }
+            .md-col-3 { grid-column: span 3; }
+            .md-col-4 { grid-column: span 4; }
+            .md-row-2 { grid-row: span 2; }
+            .md-row-3 { grid-row: span 3; }
+
+            /* Desktop: About card tem altura fixa como antes */
+            .about-card { min-height: 380px; }
+            /* GitHub card */
+            .github-card-wrap { min-height: 240px; }
+            /* LinkedIn + CV ficam na mesma linha */
+            .contact-row { min-height: 120px; }
+            /* Botões de contato */
+            .contact-btn-wrap { min-height: 120px; }
+        }
+
+        /* Mobile: garantia de altura mínima confortável */
+        .about-card     { min-height: 340px; }
+        .github-card-wrap { min-height: 180px; }
+        .contact-row    { min-height: 80px; }
+        .contact-btn-wrap { min-height: 80px; }
+
+        /* Hero título menor em telas pequenas */
+        @media (max-width: 480px) {
+            .hero-title { font-size: clamp(3rem, 18vw, 6rem); }
+        }
+
+        /* Garante que botões sempre mostrem texto */
+        .btn-label { white-space: nowrap; }
+    </style>
+</head>
+<body class="overflow-x-hidden font-sans selection:bg-accent selection:text-white">
+
+    <!-- ==================== HERO ==================== -->
+    <section class="relative h-screen w-full flex flex-col items-center justify-center grid-bg px-6 text-center">
+        <div class="z-10 space-y-5">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/20 bg-accent/5 text-accent text-[10px] font-black uppercase tracking-widest animate-pulse">
+                System.Initialized_
+            </div>
+            
+            <h1 class="hero-title text-6xl sm:text-7xl md:text-9xl font-[800] text-white tracking-tighter uppercase leading-none">
+                Rodrigo<span class="text-accent">.</span>
+            </h1>
+
+            <p class="text-sm sm:text-base md:text-xl font-mono text-zinc-500">
+                // <span class="typing" id="type-text"></span>
+            </p>
+            
+            <div class="pt-12">
+                <a href="#dashboard" class="group flex flex-col items-center gap-3 text-zinc-600 hover:text-white transition-colors">
+                    <span class="text-[9px] uppercase tracking-[0.4em] font-bold italic">Rolar para explorar</span>
+                    <i data-lucide="chevron-down" class="w-5 h-5 animate-bounce text-accent"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== DASHBOARD / BENTO ==================== -->
+    <section id="dashboard" class="min-h-screen py-12 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto grid-bg">
+
+        <div class="bento-grid">
+
+            <!-- ── Card Sobre ── -->
+            <div class="reveal about-card bento-card md-col-2 md-row-3 rounded-[2rem] p-7 sm:p-10 flex flex-col justify-between overflow-hidden relative group">
+                <div class="z-10">
+                    <div class="flex items-center justify-between mb-6">
+                        <img src="https://github.com/digueraDEV.png" 
+                             class="w-14 h-14 sm:w-16 sm:h-16 rounded-3xl border-2 border-accent/20" 
+                             alt="Avatar Rodrigo">
+                        
+                        <div class="flex items-center gap-2 sm:gap-3 text-xl sm:text-2xl text-zinc-600">
+                            <i class="devicon-javascript-plain colored hover:scale-110 transition-transform" title="JavaScript"></i>
+                            <i class="devicon-typescript-plain colored hover:scale-110 transition-transform" title="TypeScript"></i>
+                            <i class="devicon-react-original colored hover:scale-110 transition-transform" title="React.js"></i>
+                            <i class="devicon-nodejs-plain colored hover:scale-110 transition-transform" title="Node.js"></i>
+                            <i class="devicon-css3-plain colored hover:scale-110 transition-transform" title="CSS3"></i>
+                        </div>
+                    </div>
+                    
+                    <h2 class="text-white text-2xl sm:text-3xl font-extrabold tracking-tight mb-4">
+                        E aí, sou o Rodrigo! 👋
+                    </h2>
+                    <p class="text-zinc-400 text-sm sm:text-base leading-relaxed">
+                        Faço <span class="text-white font-semibold">Engenharia de Computação</span> e foco em desenvolvimento Fullstack. Gosto de resolver problema com código e entender como as coisas funcionam por dentro. Se eu não estiver no VS Code, provavelmente estou com o baixo na mão. 🎸
+                    </p>
+                </div>
+                
+                <div class="flex gap-2 mt-6">
+                    <span class="px-4 py-1.5 bg-zinc-900 rounded-lg text-[11px] font-bold text-accent border border-accent/10 uppercase tracking-wider">Fullstack</span>
+                </div>
+            </div>
+
+            <!-- ── Card GitHub ── -->
+            <a href="https://github.com/digueraDEV" target="_blank" 
+               class="reveal delay-1 github-card-wrap md-col-2 md-row-2 bento-card github-card rounded-[2rem] p-7 sm:p-8 flex flex-col justify-between group bg-accent text-white">
+                <div class="flex justify-between items-start">
+                    <i data-lucide="github" class="w-10 h-10 sm:w-12 sm:h-12"></i>
+                    <i data-lucide="arrow-up-right" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 group-hover:opacity-100 transition-all"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-xl sm:text-2xl leading-none">GitHub Insights</h3>
+                    <p class="text-xs font-bold mt-2 opacity-80 uppercase tracking-widest">Meus Projetos!</p>
+                </div>
+            </a>
+
+            <!-- ── Card LinkedIn ── -->
+            <a href="https://www.linkedin.com/in/rodrigo-mesquita-7450bb348/" target="_blank" 
+               class="reveal delay-2 contact-row md-col-2 bento-card linkedin-card rounded-[2rem] flex items-center justify-center gap-3 sm:gap-4 group shadow-lg px-5 py-4">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center p-2 shadow-inner flex-shrink-0">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linkedin/linkedin-original.svg" 
+                         alt="LinkedIn Logo" class="w-6 h-6 sm:w-7 sm:h-7">
+                </div>
+                <div class="flex flex-col min-w-0">
+                    <span class="font-bold text-white text-sm sm:text-base tracking-tight leading-tight truncate">
+                        Rodrigo | LinkedIn Profissional
+                    </span>
+                    <span class="text-xs text-white/80 mt-0.5">Conectar e fazer Networking</span>
+                </div>
+                <i data-lucide="external-link" class="w-4 h-4 sm:w-5 sm:h-5 text-white/50 group-hover:text-white transition-colors ml-auto flex-shrink-0"></i>
+            </a>
+
+            <!-- ── Card Currículo ── -->
+            <a href="#" 
+               class="reveal delay-3 contact-row md-col-2 bento-card rounded-[2rem] px-6 sm:px-10 flex items-center justify-between gap-4 group py-4">
+                <div class="flex items-center gap-4 min-w-0">
+                    <i data-lucide="file-text" class="text-accent w-6 h-6 sm:w-7 sm:h-7 flex-shrink-0"></i>
+                    <h4 class="text-white font-bold text-sm sm:text-base leading-tight uppercase tracking-tight truncate">
+                        Currículo 2026 — Em Breve!
+                    </h4>
+                </div>
+                <i data-lucide="download" class="w-5 h-5 text-zinc-600 group-hover:text-white transition-colors flex-shrink-0"></i>
+            </a>
+
+            <!-- ── Linha de contato: WhatsApp + Email ── -->
+            <!-- WhatsApp -->
+            <a href="https://wa.me/5538998411650" target="_blank" 
+               class="reveal delay-4 contact-btn-wrap md-col-1 bento-card rounded-[2rem] flex flex-col items-center justify-center gap-2 sm:gap-3 group py-4 sm:py-0">
+                <i data-lucide="message-circle" class="w-7 h-7 sm:w-8 sm:h-8 text-zinc-500 group-hover:text-[#25D366] transition-colors"></i>
+                <span class="btn-label font-bold text-white text-[11px] sm:text-xs uppercase tracking-widest">WhatsApp</span>
+            </a>
+
+            <!-- Email -->
+            <button onclick="copyEmail('rodrigo@dev.com', this)" 
+                    class="reveal delay-4 contact-btn-wrap md-col-1 bento-card rounded-[2rem] flex flex-col items-center justify-center gap-2 sm:gap-3 group bg-white text-black hover:bg-accent hover:text-white border-none transition-all py-4 sm:py-0 cursor-pointer w-full">
+                <i data-lucide="mail" class="w-7 h-7 sm:w-8 sm:h-8"></i>
+                <span class="btn-label font-black text-[11px] sm:text-xs uppercase tracking-widest" id="email-btn">Copiar Mail</span>
+            </button>
+
+        </div>
+
+        <footer class="mt-16 text-center">
+            <p class="text-[9px] font-mono uppercase tracking-[0.4em] text-zinc-800">
+                Comp. Engineering &bull; Fullstack JS/TS &bull; 2026
+            </p>
+        </footer>
+    </section>
+
+    <script>
+        lucide.createIcons({ strokeWidth: 2 });
+
+        // Typing effect
+        const words = ["Dev Fullstack", "Engenheiro de Computação", "Bass Player 🎸"];
+        let wordIdx = 0, charIdx = 0, isDeleting = false;
+        const target = document.getElementById("type-text");
+
+        function type() {
+            const currentWord = words[wordIdx];
+            if (isDeleting) {
+                target.innerText = currentWord.substring(0, charIdx - 1);
+                charIdx--;
+            } else {
+                target.innerText = currentWord.substring(0, charIdx + 1);
+                charIdx++;
+            }
+            let speed = isDeleting ? 50 : 100;
+            if (!isDeleting && charIdx === currentWord.length) {
+                speed = 2000; isDeleting = true;
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                wordIdx = (wordIdx + 1) % words.length;
+                speed = 500;
+            }
+            setTimeout(type, speed);
+        }
+        type();
+
+        // Reveal on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Copy email
+        function copyEmail(email, btn) {
+            navigator.clipboard.writeText(email).then(() => {
+                const span = document.getElementById('email-btn');
+                span.innerText = 'Copiado! 🚀';
+                btn.classList.add('!bg-emerald-500', '!text-white');
+                setTimeout(() => {
+                    span.innerText = 'Copiar Mail';
+                    btn.classList.remove('!bg-emerald-500', '!text-white');
+                }, 2500);
+            });
+        }
+    </script>
+</body>
+</html>
