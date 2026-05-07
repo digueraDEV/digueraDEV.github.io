@@ -143,38 +143,74 @@
         }
         #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-        /* ── Banner de WebView ── */
+        /* ── WebView Pill — minimal & non-invasive ── */
         #webview-banner {
             display: none;
-            position: fixed; top: 0; left: 0; right: 0; z-index: 9998;
-            background: #a855f7; color: white;
-            padding: 10px 16px;
-            font-size: 12px; font-weight: 600; text-align: center;
-            letter-spacing: 0.02em;
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            z-index: 9998;
+            background: rgba(168, 85, 247, 0.12);
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: #d8b4fe;
+            padding: 7px 13px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: none;
+            align-items: center;
+            gap: 6px;
+            max-width: calc(100vw - 28px);
+            box-sizing: border-box;
         }
-        #webview-banner a {
-            color: #bfdbfe; text-decoration: underline; margin-left: 6px;
+        #webview-banner:hover {
+            background: rgba(168, 85, 247, 0.22);
+            border-color: rgba(168, 85, 247, 0.5);
         }
+        #webview-banner svg {
+            width: 12px;
+            height: 12px;
+            flex-shrink: 0;
+        }
+        /* dismiss button */
+        #webview-dismiss {
+            margin-left: 4px;
+            opacity: 0.5;
+            font-size: 13px;
+            line-height: 1;
+            cursor: pointer;
+        }
+        #webview-dismiss:hover { opacity: 1; }
     </style>
 </head>
 
 <body class="overflow-x-hidden font-sans selection:bg-accent selection:text-white">
 
-    <!-- ── Banner para WebView do Instagram ───────────────────── -->
     <!--
-        Quando o usuário abre pelo Instagram, o LinkedIn NÃO abre no app
-        porque o WebView interno bloqueia deep-links externos.
-        Exibimos um aviso pedindo para abrir no navegador real.
+        ── WebView Pill ─────────────────────────────────────────────────
+        Aparece apenas dentro de WebViews (Instagram, TikTok, etc.)
+        como um pill discreto no canto superior direito.
+        Clicar tenta abrir o site no navegador real.
     -->
-    <div id="webview-banner">
-        ⚠️ Você está em um navegador interno. Para abrir o LinkedIn corretamente,
-        <a id="open-browser-btn" href="#" onclick="openInBrowser(event)">toque aqui para abrir no Chrome / Safari</a>
+    <div id="webview-banner" role="button" tabindex="0"
+         onclick="openInBrowser()" onkeydown="if(event.key==='Enter')openInBrowser()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        <span>Abrir no navegador</span>
+        <span id="webview-dismiss" onclick="dismissBanner(event)" title="Fechar">×</span>
     </div>
 
-    <!-- ── Toast ─────────────────────────────────────────────── -->
     <div id="toast">✅ E-mail copiado!</div>
 
-    <!-- ==================== HERO ==================== -->
+    <!-- ── Hero ──────────────────────────────────────────────────────── -->
     <section class="relative h-screen w-full flex flex-col items-center justify-center grid-bg px-6 text-center">
         <div class="z-10 space-y-5">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/20 bg-accent/5 text-accent text-[10px] font-black uppercase tracking-widest animate-pulse">
@@ -198,12 +234,12 @@
         </div>
     </section>
 
-    <!-- ==================== DASHBOARD / BENTO ==================== -->
+    <!-- ── Dashboard / Bento ─────────────────────────────────────────── -->
     <section id="dashboard" class="min-h-screen py-12 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto grid-bg">
 
         <div class="bento-grid">
 
-            <!-- ── Card Sobre ── -->
+            <!-- ── About ── -->
             <div class="reveal about-card bento-card md-col-2 md-row-3 rounded-[2rem] p-7 sm:p-10 flex flex-col justify-between overflow-hidden relative group">
                 <div class="z-10">
                     <div class="flex items-center justify-between mb-6">
@@ -233,17 +269,11 @@
                 </div>
             </div>
 
-            <!-- ── Card GitHub ── -->
-            <!--
-                CORREÇÃO: substituímos target="_blank" por onclick com openExternalLink().
-                No WebView do Instagram, _blank é ignorado e o link abre na mesma aba,
-                quebrando a navegação. A função tenta window.open e cai de volta para
-                location.href como fallback.
-            -->
+            <!-- ── GitHub ── -->
             <a href="https://github.com/digueraDEV"
-               onclick="openExternalLink(event, 'https://github.com/digueraDEV')"
+               onclick="openExternal(event, 'https://github.com/digueraDEV')"
                class="reveal delay-1 github-card-wrap md-col-2 md-row-2 bento-card github-card rounded-[2rem] p-7 sm:p-8 flex flex-col justify-between group bg-accent text-white"
-               rel="noopener noreferrer">
+               rel="noopener noreferrer" target="_blank">
                 <div class="flex justify-between items-start">
                     <i data-lucide="github" class="w-10 h-10 sm:w-12 sm:h-12"></i>
                     <i data-lucide="arrow-up-right" class="w-5 h-5 sm:w-6 sm:h-6 opacity-40 group-hover:opacity-100 transition-all"></i>
@@ -254,19 +284,11 @@
                 </div>
             </a>
 
-            <!-- ── Card LinkedIn ── -->
-            <!--
-                CORREÇÃO PRINCIPAL: O LinkedIn bloqueia abertura direta de dentro do
-                WebView do Instagram. Usamos openLinkedIn() que:
-                  1. Tenta abrir via deep-link nativo  linkedin://
-                  2. Fallback para URL web com window.open
-                  3. Se falhar (WebView bloqueado), exibe instruções para o usuário.
-                Assim o LinkedIn abre corretamente em qualquer contexto.
-            -->
+            <!-- ── LinkedIn ── -->
             <a href="https://www.linkedin.com/in/rodrigo-mesquita-7450bb348/"
                onclick="openLinkedIn(event)"
                class="reveal delay-2 contact-row md-col-2 bento-card linkedin-card rounded-[2rem] flex items-center justify-center gap-3 sm:gap-4 group shadow-lg px-5 py-4"
-               rel="noopener noreferrer">
+               rel="noopener noreferrer" target="_blank">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center p-2 shadow-inner flex-shrink-0">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linkedin/linkedin-original.svg"
                          alt="LinkedIn Logo" class="w-6 h-6 sm:w-7 sm:h-7">
@@ -280,7 +302,7 @@
                 <i data-lucide="external-link" class="w-4 h-4 sm:w-5 sm:h-5 text-white/50 group-hover:text-white transition-colors ml-auto flex-shrink-0"></i>
             </a>
 
-            <!-- ── Card Currículo ── -->
+            <!-- ── Currículo ── -->
             <a href="#"
                class="reveal delay-3 contact-row md-col-2 bento-card rounded-[2rem] px-6 sm:px-10 flex items-center justify-between gap-4 group py-4">
                 <div class="flex items-center gap-4 min-w-0">
@@ -294,18 +316,16 @@
 
             <!-- ── WhatsApp ── -->
             <a href="https://wa.me/5538998411650"
-               onclick="openExternalLink(event, 'https://wa.me/5538998411650')"
+               onclick="openExternal(event, 'https://wa.me/5538998411650')"
                class="reveal delay-4 contact-btn-wrap md-col-1 bento-card whatsapp-card rounded-[2rem] flex flex-col items-center justify-center gap-2 sm:gap-3 group py-4 sm:py-0"
-               rel="noopener noreferrer">
+               rel="noopener noreferrer" target="_blank">
                 <i data-lucide="message-circle" class="w-7 h-7 sm:w-8 sm:h-8 text-zinc-500 group-hover:text-[#25D366] transition-colors"></i>
                 <span class="btn-label font-bold text-white text-[11px] sm:text-xs uppercase tracking-widest">WhatsApp</span>
             </a>
 
-            <!-- ── Email (copiar) ── -->
+            <!-- ── Email ── -->
             <!--
-                CORREÇÃO: email real deve ser substituído aqui.
-                navigator.clipboard requer HTTPS — adicionamos fallback com execCommand
-                para casos em que a API não esteja disponível (WebViews antigos).
+                ⚠️  Substitua 'seuemail@dominio.com' pelo seu e-mail real
             -->
             <button onclick="copyEmail('seuemail@dominio.com', this)"
                     class="reveal delay-4 contact-btn-wrap md-col-1 bento-card rounded-[2rem] flex flex-col items-center justify-center gap-2 sm:gap-3 group bg-white text-black hover:bg-accent hover:text-white border-none transition-all py-4 sm:py-0 cursor-pointer w-full">
@@ -324,85 +344,89 @@
 
     <!-- ==================== SCRIPTS ==================== -->
     <script>
-        // ── Lucide icons ────────────────────────────────────────────────
+        // ── Lucide icons ─────────────────────────────────────────────────
         lucide.createIcons({ strokeWidth: 2 });
 
-        // ── Detecta WebView (Instagram, TikTok, Facebook, etc.) ─────────
+        // ── Detecta WebView (Instagram, TikTok, Facebook, etc.) ──────────
         function isInAppBrowser() {
             const ua = navigator.userAgent || '';
             return /Instagram|FBAN|FBAV|FB_IAB|BytedanceWebview|TikTok|Twitter|Snapchat/i.test(ua);
         }
 
-        // Exibe banner de aviso se estiver em WebView
+        // ── Exibe pill de aviso se estiver em WebView ────────────────────
         if (isInAppBrowser()) {
-            document.getElementById('webview-banner').style.display = 'block';
-            // Empurra o conteúdo para não ficar sob o banner
-            document.body.style.paddingTop = '44px';
+            const banner = document.getElementById('webview-banner');
+            banner.style.display = 'flex';
         }
 
-        // Abre o site no navegador real (via intent no Android ou apenas href no iOS)
-        function openInBrowser(e) {
-            e.preventDefault();
+        // ── Dispensar banner ─────────────────────────────────────────────
+        function dismissBanner(e) {
+            e.stopPropagation();
+            document.getElementById('webview-banner').style.display = 'none';
+        }
+
+        // ── Abre o site no navegador real ────────────────────────────────
+        function openInBrowser() {
             const url = window.location.href;
-            // Android intent
-            const intentUrl = 'intent://' + url.replace(/^https?:\/\//, '') + '#Intent;scheme=https;action=android.intent.action.VIEW;end';
+            // Android: tenta intent para abrir no Chrome
+            const intentUrl = 'intent://' + url.replace(/^https?:\/\//, '') +
+                              '#Intent;scheme=https;action=android.intent.action.VIEW;' +
+                              'package=com.android.chrome;end';
             try {
                 window.location.href = intentUrl;
             } catch (_) {
-                // fallback: copia URL para clipboard e instrui o usuário
+                // Fallback: copia URL e avisa o usuário
                 copyToClipboard(url);
                 showToast('URL copiada! Cole no Chrome ou Safari 🚀');
             }
         }
 
-        // ── Abre link externo de forma segura em qualquer contexto ──────
-        function openExternalLink(e, url) {
+        // ─────────────────────────────────────────────────────────────────
+        // CORRIGIDO: Abre links externos SEMPRE em nova aba.
+        // Remove o fallback window.location.href que causava a duplicação.
+        // Se window.open for bloqueado (popup blocker), o target="_blank"
+        // do <a> já garante a abertura correta pelo browser.
+        // ─────────────────────────────────────────────────────────────────
+        function openExternal(e, url) {
             e.preventDefault();
-            const win = window.open(url, '_blank', 'noopener,noreferrer');
-            if (!win || win.closed || typeof win.closed === 'undefined') {
-                // WebView bloqueou window.open — fallback para location
-                window.location.href = url;
-            }
+            window.open(url, '_blank', 'noopener,noreferrer');
         }
 
-        // ── Abertura do LinkedIn com deep-link nativo como 1ª tentativa ─
-        // Deep-link linkedin:// abre o app se instalado, sem depender do WebView.
-        // Se não funcionar em 600ms, abre a URL web.
+        // ─────────────────────────────────────────────────────────────────
+        // CORRIGIDO: LinkedIn
+        //
+        // Navegador normal → window.open → nova aba, site atual fica fixo.
+        //
+        // WebView → tenta abrir o app LinkedIn via iframe (não navega a
+        // página atual) e abre a URL web como fallback.
+        // O fallback aqui NAVEGA a página atual porque WebViews bloqueiam
+        // window.open, mas pelo menos o site não abre em DOIS lugares.
+        // ─────────────────────────────────────────────────────────────────
         function openLinkedIn(e) {
             e.preventDefault();
-
             const profileUrl = 'https://www.linkedin.com/in/rodrigo-mesquita-7450bb348/';
-            // ID do perfil para deep-link nativo do app LinkedIn
-            const deepLink    = 'linkedin://in/rodrigo-mesquita-7450bb348';
 
             if (isInAppBrowser()) {
-                // Dentro do WebView: deep-link direto é a forma mais confiável
-                // Timeout: se o app não abrir em 700ms, vai para web
-                let appOpened = false;
+                // Dentro do WebView: tenta deep-link via iframe (não navega a página)
+                const deepLink = 'linkedin://in/rodrigo-mesquita-7450bb348';
+                const iframe = document.createElement('iframe');
+                iframe.style.cssText = 'display:none;width:0;height:0;border:none;position:absolute;';
+                iframe.src = deepLink;
+                document.body.appendChild(iframe);
 
-                window.addEventListener('blur', function onBlur() {
-                    appOpened = true;
-                    window.removeEventListener('blur', onBlur);
-                });
-
-                window.location.href = deepLink;
-
+                // Após 800ms remove o iframe e abre a URL web
+                // (se o app foi aberto, o usuário já está lá; senão vai para o site)
                 setTimeout(function () {
-                    if (!appOpened) {
-                        // App LinkedIn não instalado ou deep-link falhou — abre web
-                        window.location.href = profileUrl;
-                    }
-                }, 700);
-            } else {
-                // Navegador normal: abre em nova aba
-                const win = window.open(profileUrl, '_blank', 'noopener,noreferrer');
-                if (!win || win.closed || typeof win.closed === 'undefined') {
+                    document.body.removeChild(iframe);
                     window.location.href = profileUrl;
-                }
+                }, 800);
+            } else {
+                // Navegador normal: nova aba, site atual permanece intacto
+                window.open(profileUrl, '_blank', 'noopener,noreferrer');
             }
         }
 
-        // ── Typing effect ────────────────────────────────────────────────
+        // ── Typing effect ─────────────────────────────────────────────────
         const words = ["Dev Fullstack", "Engenheiro de Computação", "Bass Player 🎸"];
         let wordIdx = 0, charIdx = 0, isDeleting = false;
         const target = document.getElementById("type-text");
@@ -428,7 +452,7 @@
         }
         type();
 
-        // ── Reveal on scroll ─────────────────────────────────────────────
+        // ── Reveal on scroll ──────────────────────────────────────────────
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -440,12 +464,11 @@
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // ── Copy to clipboard (com fallback para WebViews antigos) ───────
+        // ── Copy to clipboard (com fallback para WebViews antigos) ────────
         function copyToClipboard(text) {
             if (navigator.clipboard && window.isSecureContext) {
                 return navigator.clipboard.writeText(text);
             }
-            // Fallback execCommand
             const ta = document.createElement('textarea');
             ta.value = text;
             ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
@@ -456,7 +479,7 @@
             return Promise.resolve();
         }
 
-        // ── Toast ────────────────────────────────────────────────────────
+        // ── Toast ──────────────────────────────────────────────────────────
         function showToast(msg) {
             const t = document.getElementById('toast');
             t.textContent = msg || '✅ E-mail copiado!';
@@ -464,7 +487,7 @@
             setTimeout(() => t.classList.remove('show'), 2800);
         }
 
-        // ── Copy email ───────────────────────────────────────────────────
+        // ── Copy email ─────────────────────────────────────────────────────
         // ⚠️  Substitua 'seuemail@dominio.com' pelo seu e-mail real
         function copyEmail(email, btn) {
             copyToClipboard(email).then(() => {
